@@ -17,7 +17,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
 }
 
 android {
@@ -45,9 +44,6 @@ dependencies {
     implementation(libs.androidx.test.core.ktx)
     implementation(libs.androidx.test.ext)
     implementation(libs.androidx.test.rules)
-    implementation(libs.hilt.android.core)
-    implementation(libs.hilt.android.testing)
-    ksp(libs.hilt.compiler)
 
     // Room
     implementation(libs.room.runtime)

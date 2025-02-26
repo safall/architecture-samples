@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
-import javax.inject.Inject
 
 /**
  * Default implementation of [TaskRepository]. Single entry point for managing tasks' data.
@@ -37,7 +36,7 @@ import javax.inject.Inject
  * @param scope - The coroutine scope used for deferred jobs where the result isn't important, such
  * as sending data to the network.
  */
-class DefaultTaskRepository @Inject constructor(
+class DefaultTaskRepository(
     private val networkDataSource: NetworkDataSource,
     private val localDataSource: TaskDao,
     val dispatcher: CoroutineDispatcher,

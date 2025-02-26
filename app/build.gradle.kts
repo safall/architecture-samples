@@ -18,7 +18,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -123,11 +122,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.lifecycle.viewModelCompose)
 
-    // Hilt
-    implementation(libs.hilt.android.core)
-    implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.hilt.compiler)
-
     // Jetpack Compose
     val composeBom = platform(libs.androidx.compose.bom)
 
@@ -167,10 +161,6 @@ dependencies {
     testImplementation(libs.google.truth)
     testImplementation(libs.androidx.compose.ui.test.junit)
 
-    // JVM tests - Hilt
-    testImplementation(libs.hilt.android.testing)
-    kspTest(libs.hilt.compiler)
-
     // Dependencies for Android unit tests
     androidTestImplementation(composeBom)
     androidTestImplementation(libs.junit4)
@@ -196,10 +186,6 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.idling.resources)
     androidTestImplementation(libs.androidx.test.espresso.idling.concurrent)
     androidTestImplementation(project(":shared-test"))
-
-    // AndroidX Test - Hilt testing
-    androidTestImplementation(libs.hilt.android.testing)
-    kspAndroidTest(libs.hilt.compiler)
 
     testImplementation(libs.koin.core)
     testImplementation(libs.koin.test)
