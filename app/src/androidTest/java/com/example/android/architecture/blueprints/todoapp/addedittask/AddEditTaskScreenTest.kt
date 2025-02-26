@@ -27,15 +27,12 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
-import androidx.lifecycle.SavedStateHandle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
-import com.example.android.architecture.blueprints.todoapp.HiltTestActivity
+import com.example.android.architecture.blueprints.todoapp.TestActivity
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.TodoTheme
 import com.example.android.architecture.blueprints.todoapp.data.TaskRepository
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -43,37 +40,32 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import javax.inject.Inject
+import org.koin.test.KoinTest
+import org.koin.test.get
+import org.koin.test.inject
 
 /**
  * Integration test for the Add Task screen.
  */
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-@HiltAndroidTest
 @ExperimentalCoroutinesApi
-class AddEditTaskScreenTest {
+class AddEditTaskScreenTest : KoinTest {
 
-    @get:Rule(order = 0)
-    var hiltRule = HiltAndroidRule(this)
-
-    @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
+    @get:Rule
+    val composeTestRule = createAndroidComposeRule<TestActivity>()
     private val activity get() = composeTestRule.activity
 
-    @Inject
-    lateinit var repository: TaskRepository
+    private val repository: TaskRepository by inject()
 
     @Before
     fun setup() {
-        hiltRule.inject()
-
         // GIVEN - On the "Add Task" screen.
         composeTestRule.setContent {
             TodoTheme {
                 Surface {
                     AddEditTaskScreen(
-                        viewModel = AddEditTaskViewModel(repository, SavedStateHandle()),
+                        viewModel = get(),
                         topBarTitle = R.string.add_task,
                         onTaskUpdate = { },
                         onBack = { },

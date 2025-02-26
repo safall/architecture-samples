@@ -19,7 +19,7 @@
 
     <application>
         <activity
-            android:name=".HiltTestActivity"
+            android:name=".TestActivity"
             android:exported="false"  />
     </application>
 

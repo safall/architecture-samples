@@ -26,41 +26,29 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.lifecycle.SavedStateHandle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
-import com.example.android.architecture.blueprints.todoapp.HiltTestActivity
+import com.example.android.architecture.blueprints.todoapp.TestActivity
 import com.example.android.architecture.blueprints.todoapp.TodoTheme
 import com.example.android.architecture.blueprints.todoapp.data.TaskRepository
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import javax.inject.Inject
+import org.koin.test.KoinTest
+import org.koin.test.inject
 
 /**
  * Integration test for the Task Details screen.
  */
 @MediumTest
 @RunWith(AndroidJUnit4::class)
-@HiltAndroidTest
 @ExperimentalCoroutinesApi
-class TaskDetailScreenTest {
+class TaskDetailScreenTest : KoinTest {
 
-    @get:Rule(order = 0)
-    var hiltRule = HiltAndroidRule(this)
+    @get:Rule
+    val composeTestRule = createAndroidComposeRule<TestActivity>()
 
-    @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
-
-    @Inject
-    lateinit var repository: TaskRepository
-
-    @Before
-    fun setup() {
-        hiltRule.inject()
-    }
+    private val repository: TaskRepository by inject()
 
     @Test
     fun activeTaskDetails_DisplayedInUi() = runTest {

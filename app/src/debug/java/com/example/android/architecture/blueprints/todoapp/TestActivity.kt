@@ -17,7 +17,5 @@
 package com.example.android.architecture.blueprints.todoapp
 
 import androidx.activity.ComponentActivity
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class HiltTestActivity : ComponentActivity()
+class TestActivity : ComponentActivity()

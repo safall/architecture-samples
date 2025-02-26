@@ -27,47 +27,34 @@ import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.example.android.architecture.blueprints.todoapp.HiltTestActivity
+import com.example.android.architecture.blueprints.todoapp.TestActivity
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.TodoNavGraph
 import com.example.android.architecture.blueprints.todoapp.TodoTheme
 import com.example.android.architecture.blueprints.todoapp.data.TaskRepository
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import javax.inject.Inject
+import org.koin.test.KoinTest
+import org.koin.test.inject
 
 /**
  * Tests for scenarios that requires navigating within the app.
  */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-@HiltAndroidTest
-class AppNavigationTest {
+class AppNavigationTest : KoinTest {
 
     @get:Rule(order = 0)
-    var hiltRule = HiltAndroidRule(this)
-
-    // Executes tasks in the Architecture Components in the same thread
-    @get:Rule(order = 1)
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @get:Rule(order = 2)
-    val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
+    @get:Rule(order = 1)
+    val composeTestRule = createAndroidComposeRule<TestActivity>()
     private val activity get() = composeTestRule.activity
 
-    @Inject
-    lateinit var taskRepository: TaskRepository
-
-    @Before
-    fun init() {
-        hiltRule.inject()
-    }
+    private val taskRepository: TaskRepository by inject()
 
     @Test
     fun drawerNavigationFromTasksToStatistics() {
