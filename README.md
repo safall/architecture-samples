@@ -1,3 +1,11 @@
+# Whats different from Android Architecture Samples
+
+In this particular fork, I have replaced Hilt with Koin. 
+
+Developers that are interested in migration from Hilt to Koin can see this forked repo as a reference.
+
+Minimal effort changes are done in this, hence not all the tests passes here. Feel free to dive deeper. 
+
 # Android Architecture Samples
 
 These samples showcase different architectural approaches to developing Android apps. In its different branches you'll find the same app (a TODO app) implemented with small differences.
