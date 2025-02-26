@@ -131,6 +131,11 @@ dependencies {
     // Jetpack Compose
     val composeBom = platform(libs.androidx.compose.bom)
 
+    // Koin
+    implementation(libs.koin.core)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.android)
+
     implementation(libs.androidx.activity.compose)
     implementation(composeBom)
     implementation(libs.androidx.compose.foundation.core)
@@ -195,4 +200,11 @@ dependencies {
     // AndroidX Test - Hilt testing
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.compiler)
+
+    testImplementation(libs.koin.core)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.test.junit4)
+
+    androidTestImplementation(libs.koin.test)
+    androidTestImplementation(libs.koin.test.junit4)
 }

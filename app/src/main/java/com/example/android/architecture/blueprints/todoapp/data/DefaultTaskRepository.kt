@@ -18,8 +18,6 @@ package com.example.android.architecture.blueprints.todoapp.data
 
 import com.example.android.architecture.blueprints.todoapp.data.source.local.TaskDao
 import com.example.android.architecture.blueprints.todoapp.data.source.network.NetworkDataSource
-import com.example.android.architecture.blueprints.todoapp.di.ApplicationScope
-import com.example.android.architecture.blueprints.todoapp.di.DefaultDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -28,7 +26,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Default implementation of [TaskRepository]. Single entry point for managing tasks' data.
@@ -40,12 +37,11 @@ import javax.inject.Singleton
  * @param scope - The coroutine scope used for deferred jobs where the result isn't important, such
  * as sending data to the network.
  */
-@Singleton
 class DefaultTaskRepository @Inject constructor(
     private val networkDataSource: NetworkDataSource,
     private val localDataSource: TaskDao,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-    @ApplicationScope private val scope: CoroutineScope,
+    val dispatcher: CoroutineDispatcher,
+    private val scope: CoroutineScope,
 ) : TaskRepository {
 
     override suspend fun createTask(title: String, description: String): String {

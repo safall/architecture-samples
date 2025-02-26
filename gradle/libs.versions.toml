@@ -37,6 +37,7 @@ hilt = "2.53.1"
 hiltExt = "1.2.0"
 jacoco = "0.8.7"
 junit4 = "4.13.2"
+koinBom = "4.0.0"
 kotlin = "2.1.10"
 kotlinxCoroutines = "1.10.1"
 kotlinxDatetime = "0.6.2"
@@ -123,6 +124,13 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
 hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koinBom" }
+koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinBom" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinBom" }
+koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koinBom"}
+koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koinBom"}
+
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }

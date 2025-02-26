@@ -42,6 +42,7 @@ import com.example.android.architecture.blueprints.todoapp.tasks.TasksScreen
 import com.example.android.architecture.blueprints.todoapp.util.AppModalDrawer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.KoinAndroidContext
 
 @Composable
 fun TodoNavGraph(
@@ -57,58 +58,60 @@ fun TodoNavGraph(
     val currentNavBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentNavBackStackEntry?.destination?.route ?: startDestination
 
-    NavHost(
-        navController = navController,
-        startDestination = startDestination,
-        modifier = modifier
-    ) {
-        composable(
-            TodoDestinations.TASKS_ROUTE,
-            arguments = listOf(
-                navArgument(USER_MESSAGE_ARG) { type = NavType.IntType; defaultValue = 0 }
-            )
-        ) { entry ->
-            AppModalDrawer(drawerState, currentRoute, navActions) {
-                TasksScreen(
-                    userMessage = entry.arguments?.getInt(USER_MESSAGE_ARG)!!,
-                    onUserMessageDisplayed = { entry.arguments?.putInt(USER_MESSAGE_ARG, 0) },
-                    onAddTask = { navActions.navigateToAddEditTask(R.string.add_task, null) },
-                    onTaskClick = { task -> navActions.navigateToTaskDetail(task.id) },
-                    openDrawer = { coroutineScope.launch { drawerState.open() } }
+    KoinAndroidContext {
+        NavHost(
+            navController = navController,
+            startDestination = startDestination,
+            modifier = modifier
+        ) {
+            composable(
+                TodoDestinations.TASKS_ROUTE,
+                arguments = listOf(
+                    navArgument(USER_MESSAGE_ARG) { type = NavType.IntType; defaultValue = 0 }
+                )
+            ) { entry ->
+                AppModalDrawer(drawerState, currentRoute, navActions) {
+                    TasksScreen(
+                        userMessage = entry.arguments?.getInt(USER_MESSAGE_ARG)!!,
+                        onUserMessageDisplayed = { entry.arguments?.putInt(USER_MESSAGE_ARG, 0) },
+                        onAddTask = { navActions.navigateToAddEditTask(R.string.add_task, null) },
+                        onTaskClick = { task -> navActions.navigateToTaskDetail(task.id) },
+                        openDrawer = { coroutineScope.launch { drawerState.open() } }
+                    )
+                }
+            }
+            composable(TodoDestinations.STATISTICS_ROUTE) {
+                AppModalDrawer(drawerState, currentRoute, navActions) {
+                    StatisticsScreen(openDrawer = { coroutineScope.launch { drawerState.open() } })
+                }
+            }
+            composable(
+                TodoDestinations.ADD_EDIT_TASK_ROUTE,
+                arguments = listOf(
+                    navArgument(TITLE_ARG) { type = NavType.IntType },
+                    navArgument(TASK_ID_ARG) { type = NavType.StringType; nullable = true },
+                )
+            ) { entry ->
+                val taskId = entry.arguments?.getString(TASK_ID_ARG)
+                AddEditTaskScreen(
+                    topBarTitle = entry.arguments?.getInt(TITLE_ARG)!!,
+                    onTaskUpdate = {
+                        navActions.navigateToTasks(
+                            if (taskId == null) ADD_EDIT_RESULT_OK else EDIT_RESULT_OK
+                        )
+                    },
+                    onBack = { navController.popBackStack() }
                 )
             }
-        }
-        composable(TodoDestinations.STATISTICS_ROUTE) {
-            AppModalDrawer(drawerState, currentRoute, navActions) {
-                StatisticsScreen(openDrawer = { coroutineScope.launch { drawerState.open() } })
+            composable(TodoDestinations.TASK_DETAIL_ROUTE) {
+                TaskDetailScreen(
+                    onEditTask = { taskId ->
+                        navActions.navigateToAddEditTask(R.string.edit_task, taskId)
+                    },
+                    onBack = { navController.popBackStack() },
+                    onDeleteTask = { navActions.navigateToTasks(DELETE_RESULT_OK) }
+                )
             }
-        }
-        composable(
-            TodoDestinations.ADD_EDIT_TASK_ROUTE,
-            arguments = listOf(
-                navArgument(TITLE_ARG) { type = NavType.IntType },
-                navArgument(TASK_ID_ARG) { type = NavType.StringType; nullable = true },
-            )
-        ) { entry ->
-            val taskId = entry.arguments?.getString(TASK_ID_ARG)
-            AddEditTaskScreen(
-                topBarTitle = entry.arguments?.getInt(TITLE_ARG)!!,
-                onTaskUpdate = {
-                    navActions.navigateToTasks(
-                        if (taskId == null) ADD_EDIT_RESULT_OK else EDIT_RESULT_OK
-                    )
-                },
-                onBack = { navController.popBackStack() }
-            )
-        }
-        composable(TodoDestinations.TASK_DETAIL_ROUTE) {
-            TaskDetailScreen(
-                onEditTask = { taskId ->
-                    navActions.navigateToAddEditTask(R.string.edit_task, taskId)
-                },
-                onBack = { navController.popBackStack() },
-                onDeleteTask = { navActions.navigateToTasks(DELETE_RESULT_OK) }
-            )
         }
     }
 }

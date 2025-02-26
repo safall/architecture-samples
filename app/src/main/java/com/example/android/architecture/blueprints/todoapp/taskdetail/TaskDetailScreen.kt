@@ -42,12 +42,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.util.LoadingContent
 import com.example.android.architecture.blueprints.todoapp.util.TaskDetailTopAppBar
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TaskDetailScreen(
@@ -55,7 +55,7 @@ fun TaskDetailScreen(
     onBack: () -> Unit,
     onDeleteTask: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: TaskDetailViewModel = hiltViewModel(),
+    viewModel: TaskDetailViewModel = koinViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 
 ) {

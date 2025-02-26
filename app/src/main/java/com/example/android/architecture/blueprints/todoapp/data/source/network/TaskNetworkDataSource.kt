@@ -19,9 +19,8 @@ package com.example.android.architecture.blueprints.todoapp.data.source.network
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import javax.inject.Inject
 
-class TaskNetworkDataSource @Inject constructor() : NetworkDataSource {
+class TaskNetworkDataSource : NetworkDataSource {
 
     // A mutex is used to ensure that reads and writes are thread-safe.
     private val accessMutex = Mutex()
